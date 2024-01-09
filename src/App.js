@@ -1,4 +1,4 @@
-import { BrowserRouter, Switch, Route } from 'react-router-dom/cjs/react-router-dom.min';
+import { BrowserRouter, Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
 import './App.scss';
 import KitchenSkin from './pages/kitchen-skin/KitchenSkin';
 

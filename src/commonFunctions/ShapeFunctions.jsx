@@ -1,21 +1,13 @@
 import { shapes } from "jointjs";
 
 export const createRectangle = (paperInstance, refArray) => {
-  
+
   const rect = new shapes.standard.Rectangle();
   rect.position(refArray[0], refArray[1]);
-  rect.resize(70, 40);
-  rect.attr({
-    body: {
-      fill: "red",
-      rx: 7,
-      ry: 7,
-    },
-    label: {
-      text: "Joint JS",
-      fill: "blue",
-    },
-  });
+  rect.resize(150, 100);
+  rect.attr('root/title', 'joint.shapes.standard.Rectangle');
+  rect.attr('label/text', 'Rectangle');
+  rect.attr('body/fill', 'skyblue');
   paperInstance.current.model.addCell(rect);
 };
 
@@ -25,18 +17,18 @@ export const createEllipse = (paperInstance, refArray) => {
   ellipse.position(refArray[0], refArray[1]);
   ellipse.attr('root/title', 'joint.shapes.standard.Ellipse');
   ellipse.attr('label/text', 'Ellipse');
-  ellipse.attr('body/fill', 'white');
+  ellipse.attr('body/fill', 'red');
   paperInstance.current.model.addCell(ellipse);
 };
 
 export const createRhombus = (paperInstance, refArray) => {
-  console.log("rho");
   var polygon = new shapes.standard.Polygon();
   polygon.resize(100, 100);
   polygon.position(refArray[0], refArray[1]);
   polygon.attr('root/title', 'joint.shapes.standard.Polygon');
   polygon.attr('label/text', 'Rhombus');
   polygon.attr('body/refPoints', '0,10 10,0 20,10 10,20');
+  polygon.attr('body/fill', '#603FEF');
 
   paperInstance.current.model.addCell(polygon);
 };

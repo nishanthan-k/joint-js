@@ -1,0 +1,57 @@
+.option-container {
+  margin-bottom: 20px;
+  .options {
+    display: flex;
+    justify-content: space-around;
+    gap: 15px;
+    position: relative;
+    filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+
+    .add-link,
+    .remove-link,
+    .remove-shape {
+      display: none;
+    }
+
+    .active-option {
+      background-color: blue;
+      border: 1px solid;
+    }
+
+    // .show-add-link {
+    //   // text-shadow: 5px 5px 10px black;
+    //   display: block;
+    //   position: absolute;
+    //   left: 5px;
+    //   top: -15px;
+    //   font-size: 16px;
+    // }
+
+    // .show-remove-link {
+    //   // text-shadow: 5px 5px 10px black;
+    //   display: block;
+    //   position: absolute;
+    //   left: 50px;
+    //   top: -15px;
+    //   font-size: 16px;
+    // }
+
+    // .show-remove-shape {
+    //   // text-shadow: 5px 5px 10px black;
+    //   display: block;
+    //   position: absolute;
+    //   right: -25px;
+    //   top: -15px;
+    //   font-size: 16px;
+    // }
+
+    .active-add-link:hover + .show-add-link {
+      // text-shadow: 5px 5px 10px black;
+      display: block;
+      position: absolute;
+      left: 5px;
+      top: -15px;
+      font-size: 16px;
+    }
+  }
+}

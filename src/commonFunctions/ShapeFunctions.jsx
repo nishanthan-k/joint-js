@@ -1,6 +1,6 @@
 import { shapes } from "jointjs";
 
-export const createRectangle = (paperInstance, x, y, id, createdShapes) => {
+export const createRectangle = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   const rect = new shapes.standard.Rectangle();
   rect.position(x, y);
   rect.resize(100, 40);
@@ -10,10 +10,11 @@ export const createRectangle = (paperInstance, x, y, id, createdShapes) => {
   rect.attr('body/fill', 'skyblue');
   rect.attr("id", id);
   createdShapes.current.push(rect);
+  createdEntities.push(rect)
   paperInstance.current.model.addCell(rect);
 };
 
-export const createEllipse = (paperInstance, x, y, id, createdShapes) => {
+export const createEllipse = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var ellipse = new shapes.standard.Ellipse();
   ellipse.resize(80, 50);
   // ellipse.resize(150, 100);
@@ -23,10 +24,11 @@ export const createEllipse = (paperInstance, x, y, id, createdShapes) => {
   ellipse.attr('body/fill', 'lightcoral');
   ellipse.attr("id", id);
   createdShapes.current.push(ellipse);
+  createdEntities.push(ellipse)
   paperInstance.current.model.addCell(ellipse);
 };
 
-export const createRhombus = (paperInstance, x, y, id, createdShapes) => {
+export const createRhombus = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var polygon = new shapes.standard.Polygon();
   polygon.resize(120, 50);
   // polygon.resize(100, 100);
@@ -37,10 +39,11 @@ export const createRhombus = (paperInstance, x, y, id, createdShapes) => {
   polygon.attr('body/fill', 'violet');
   polygon.attr("id", id);
   createdShapes.current.push(polygon);
+  createdEntities.push(polygon)
   paperInstance.current.model.addCell(polygon);
 };
 
-export const createCircle = (paperInstance, x, y, id, createdShapes) => {
+export const createCircle = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var circle = new shapes.standard.Circle();
   circle.resize(50, 50);
   // circle.resize(100, 100);
@@ -50,5 +53,6 @@ export const createCircle = (paperInstance, x, y, id, createdShapes) => {
   circle.attr('body/fill', 'yellow');
   circle.attr("id", id);
   createdShapes.current.push(circle);
+  createdEntities.push(circle)
   paperInstance.current.model.addCell(circle)
 };

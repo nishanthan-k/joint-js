@@ -2,22 +2,26 @@ import { dia } from "jointjs";
 import React, { useContext, useRef } from "react";
 import { Grid, GridColumn, GridRow, Image } from "semantic-ui-react";
 import { createCircle, createEllipse, createRectangle, createRhombus } from "../../commonFunctions/ShapeFunctions";
-import { createLink } from "../../commonFunctions/genreralFunctions";
+import { createLink, updateLink } from "../../commonFunctions/genreralFunctions";
 import OptionContainer from "../../components/optionCotainer/OptionContainer";
-import { LinkContext } from "../../contexts/Link/LinkContext";
+import { CanvasContext } from "../../contexts/CanvasContext";
+import { LinkContext } from "../../contexts/LinkContext";
 import "./KitchenSkin.scss";
 
 const KitchenSkin = () => {
-  const paperRef = useRef(null);
-  const paperInstance = useRef(null);
   const shapeRef = useRef(null);
   const createdShapes = useRef([]);
   const totalShapes = useRef(null);
+  const linkChangeflag = useRef(false);
   const selectedShape = [];
   // const selectedLink = [];
   const linkArr = [];
   totalShapes.current = 0;
-  let paper = ""; 
+  const createdEntities = [];
+  let paper = "";
+  const linkInProgress = useRef(null);
+  const oldTarget = useRef(null);
+  const { paperRef, paperInstance } = useContext(CanvasContext)
   const { addLink, removeLink, removeShape } = useContext(LinkContext)
 
   const createPaper = () => {
@@ -39,7 +43,6 @@ const KitchenSkin = () => {
             createLink(paperInstance, selectedShape, linkArr);
             selectedShape.splice(0, selectedShape.length);
             // addLink.current = false;
-            console.log('linkArr', linkArr)
           }
         } else if (removeShape.current) {
           cellView.remove();
@@ -47,10 +50,40 @@ const KitchenSkin = () => {
       });
 
       paperInstance.current.on("link:pointerclick", (cellView) => {
-        // deleteLink(paperInstance, cellView.model.id)
         if (removeLink.current) {
           cellView.remove();
         }
+      })
+
+      paperInstance.current.on("link:pointerdown", (cellView) => {
+        linkInProgress.current = cellView.model;
+        linkChangeflag.current = true;
+        oldTarget.current = linkInProgress.current.attributes.target.id;
+      })
+
+      paperInstance.current.on("link:pointerup", (linkView) => {
+        if (linkChangeflag.current) {
+          updateLink(paperInstance, linkView.model, oldTarget.current);
+        }
+        linkView.model.remove()
+        linkChangeflag.current = false
+      })
+
+      paperInstance.current.on("link:pointermove", (linkView, event, x, y) => {
+        if (linkInProgress.current === linkView.model) {
+          linkView.model.target({ x, y });
+        }
+
+        createdEntities.map(entity => {
+          let pos = entity.attributes.position;
+          let wid = entity.attributes.size;
+          if ((x <= pos.x + wid.width) && (y <= pos.y + wid.height) && (x >= pos.x) && (y >= pos.y) && linkChangeflag.current) {
+            linkInProgress.current.remove()
+            updateLink(paperInstance, linkView.model, entity.id);
+            linkChangeflag.current = false;
+          }
+          return []
+        })
       })
 
       paperInstance.current.on("element:pointerdblclick", (cellView) => {
@@ -58,48 +91,25 @@ const KitchenSkin = () => {
         const text = prompt("Enter new text:", model.attr('label/text'));
         if (text !== null) {
           model.attr('label/text', text);
+          var width = Math.max(text.length * 7, model.attributes.size.width)
+          model.resize(width, model.attributes.size.height)
         }
       });
-
-
-      // paperInstance.current.on("element:pointerclick", (cellView) => {
-      //   if (removeLink.current) {
-      //     if (selectedLink.length === 0 && !selectedLink.find(shape => shape === cellView)) {
-      //       selectedLink.push(cellView.model.id);
-      //     } else if (selectedLink.length === 1 && !selectedLink.find(shape => shape === cellView)) {
-      //       selectedLink.push(cellView.model.id);
-      //       // removeLink(paperInstance, selectedLink);
-      //       linkArr.map(link => {
-      //         link.on("element:pointerclick", (cellView) => {
-      //           console.log(link)
-      //         })
-      //         // if ((selectedLink[1] === link.attributes.source.id && selectedLink[0] === link.attributes.target.id) || (selectedLink[0] === link.attributes.source.id && selectedLink[1] === link.attributes.target.id)) {
-      //         //   console.log("call remove with", link.id)
-      //         //   deleteLink(paperInstance,  link.id);
-      //         // }
-      //       })
-      //       selectedLink.splice(0, selectedLink.length);
-      //       // removeLink.current = false;
-
-      //     }
-
-      // }
-      // });
 
 
       paperInstance.current.on("blank:pointerclick", (event, x, y) => {
         if (shapeRef.current === "rectangle") {
           totalShapes.current = totalShapes.current + 1;
-          createRectangle(paperInstance, x, y, totalShapes, createdShapes);
+          createRectangle(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
         } else if (shapeRef.current === "ellipse") {
           totalShapes.current = totalShapes.current + 1;
-          createEllipse(paperInstance, x, y, totalShapes, createdShapes);
+          createEllipse(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
         } else if (shapeRef.current === "rhombus") {
           totalShapes.current = totalShapes.current + 1;
-          createRhombus(paperInstance, x, y, totalShapes, createdShapes);
+          createRhombus(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
         } else if (shapeRef.current === "circle") {
           totalShapes.current = totalShapes.current + 1;
-          createCircle(paperInstance, x, y, totalShapes, createdShapes);
+          createCircle(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
         }
         // shapeRef.current = "";
       });

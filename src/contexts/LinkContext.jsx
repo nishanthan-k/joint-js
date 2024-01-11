@@ -9,16 +9,10 @@ export const LinkContextProvider = ({ children }) => {
   const removeLink = useRef(false);
   const removeShape = useRef(false);
   const downloadCanvas = useRef(false);
-  const { paperRef } = useContext(CanvasContext)
-
-  addLink.current = false;
-  removeLink.current = false;
-  removeShape.current = false;
-  downloadCanvas.current = false;
-
+  const exportJson = useRef(false);
+  const { paperRef, paperInstance } = useContext(CanvasContext)
 
   const downloadDiagram = () => {
-    // console.log('downloading')
     domtoimage
       .toPng(paperRef.current)
       .then(function (dataUrl) {
@@ -35,12 +29,32 @@ export const LinkContextProvider = ({ children }) => {
       });
   };
 
+  const exportToJSON = () => {
+    try {
+      const jsonData = paperInstance.current.model.toJSON();
+      const jsonString = JSON.stringify(jsonData, null, 2);
+
+      // Create a Blob containing the JSON data
+      const blob = new Blob([jsonString], { type: 'application/json' });
+
+      // Create a link to trigger the download
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'canvas_data.json';
+
+      // Trigger the download
+      link.click();
+    } catch (err) {
+      window.alert(err)
+    }
+  };
+
   const updateContext = (item) => {
-    // console.log(item)
     addLink.current = false;
     removeLink.current = false;
     removeShape.current = false;
     downloadCanvas.current = false;
+    exportJson.current = false;
 
     if (item === "addLink") {
       addLink.current = !addLink.current;
@@ -50,13 +64,15 @@ export const LinkContextProvider = ({ children }) => {
       removeShape.current = !removeShape.current;
     } else if (item === "downloadCanvas") {
       downloadDiagram();
+    } else if (item === "exportToJson") {
+      exportToJSON();
     }
 
-    // console.log(addLink, removeLink, removeShape, downloadCanvas)
+    // console.log(addLink, removeLink, removeShape, downloadCanvas, exportJson)
   };
 
   return (
-    <LinkContext.Provider value={ { addLink, removeLink, removeShape, downloadCanvas, updateContext } }>
+    <LinkContext.Provider value={ { addLink, removeLink, removeShape, downloadCanvas, exportToJSON, updateContext } }>
       { children }
     </LinkContext.Provider>
   );

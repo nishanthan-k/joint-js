@@ -10,7 +10,7 @@ export const LinkContextProvider = ({ children }) => {
   const removeShape = useRef(false);
   const downloadCanvas = useRef(false);
   const exportJson = useRef(false);
-  const { paperRef, paperInstance } = useContext(CanvasContext)
+  const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext)
 
   const downloadDiagram = () => {
     domtoimage
@@ -55,6 +55,7 @@ export const LinkContextProvider = ({ children }) => {
     removeShape.current = false;
     downloadCanvas.current = false;
     exportJson.current = false;
+    shapeRef.current = "";
 
     if (item === "addLink") {
       addLink.current = !addLink.current;

@@ -2,14 +2,13 @@ import { dia } from "jointjs";
 import React, { useContext, useRef } from "react";
 import { Grid, GridColumn, GridRow, Image } from "semantic-ui-react";
 import { createCircle, createEllipse, createRectangle, createRhombus } from "../../commonFunctions/ShapeFunctions";
-import { createLink, updateLink } from "../../commonFunctions/genreralFunctions";
+import { createLink, deleteLink, updateLink } from "../../commonFunctions/genreralFunctions";
 import OptionContainer from "../../components/optionCotainer/OptionContainer";
 import { CanvasContext } from "../../contexts/CanvasContext";
 import { LinkContext } from "../../contexts/LinkContext";
 import "./KitchenSkin.scss";
 
 const KitchenSkin = () => {
-  const shapeRef = useRef(null);
   const createdShapes = useRef([]);
   const totalShapes = useRef(null);
   const linkChangeflag = useRef(false);
@@ -21,7 +20,7 @@ const KitchenSkin = () => {
   let paper = "";
   const linkInProgress = useRef(null);
   const oldTarget = useRef(null);
-  const { paperRef, paperInstance } = useContext(CanvasContext)
+  const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext)
   const { addLink, removeLink, removeShape } = useContext(LinkContext)
 
   const createPaper = () => {
@@ -46,26 +45,32 @@ const KitchenSkin = () => {
           }
         } else if (removeShape.current) {
           cellView.remove();
+          // linkArr.map(link => {
+          // if (link.attributes.source.id === null || link.attributes.target.id === null) {
+          //   console.log(link.id)
+          // }
+          // // console.log(link)
+          // })
         }
       });
 
-      paperInstance.current.on("link:pointerclick", (cellView) => {
+      paperInstance.current.on("link:pointerdown", (linkView) => {
         if (removeLink.current) {
-          cellView.remove();
+          linkView.remove();
+          // console.log('delete call', linkArr)
+          deleteLink(paperInstance, linkView.model.id)
         }
-      })
-
-      paperInstance.current.on("link:pointerdown", (cellView) => {
-        linkInProgress.current = cellView.model;
+        linkInProgress.current = linkView.model;
         linkChangeflag.current = true;
         oldTarget.current = linkInProgress.current.attributes.target.id;
       })
 
       paperInstance.current.on("link:pointerup", (linkView) => {
-        if (linkChangeflag.current) {
+        // console.log(removeLink.current)
+        if (linkChangeflag.current && removeLink.current === false) {
           updateLink(paperInstance, linkView.model, oldTarget.current);
         }
-        linkView.model.remove()
+        // linkView.model.remove()
         linkChangeflag.current = false
       })
 
@@ -73,6 +78,7 @@ const KitchenSkin = () => {
         if (linkInProgress.current === linkView.model) {
           linkView.model.target({ x, y });
         }
+
 
         createdEntities.map(entity => {
           let pos = entity.attributes.position;

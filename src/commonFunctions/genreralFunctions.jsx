@@ -1,7 +1,7 @@
 import { shapes } from "jointjs";
 
 export const createLink = (paperInstance, selectedShape, linkArr) => {
-  if (checkLink(linkArr, selectedShape)) {
+  // if (checkLink(linkArr, selectedShape)) {
     const link = new shapes.standard.Link({
       source: { id: selectedShape[0].id },
       target: { id: selectedShape[1].id },
@@ -18,9 +18,9 @@ export const createLink = (paperInstance, selectedShape, linkArr) => {
 
     linkArr.push(link);
     paperInstance.current.model.addCell(link);
-  } else {
-    console.log("Link already exists");
-  }
+  // } else {
+  //   console.log("Link already exists");
+  // }
 };
 
 export const updateLink = (paperInstance, link, newTarget) => {
@@ -45,6 +45,9 @@ export const deleteLink = (paperInstance, linkId) => {
   const linkToRemove = paperInstance.current.model.getCell(linkId);
   if (linkToRemove) {
     linkToRemove.remove();
+    // console.log(linkArr)
+    // linkArr  = linkArr.filter(link => link.id != linkId)
+    // console.log(linkArr)
   }
 };
 

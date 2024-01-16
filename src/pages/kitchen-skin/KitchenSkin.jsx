@@ -17,15 +17,18 @@ const KitchenSkin = () => {
   // const selectedLink = [];
   let linkArr = [];
   totalShapes.current = 0;
-  const createdEntities = [];
+  let createdEntities = [];
   let paper = "";
   const linkInProgress = useRef(null);
   const oldTarget = useRef(null);
   const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext);
-  const { addLink, removeLink, removeShape } = useContext(LinkContext);
+  const { addLink, removeLink, resize, removeShape } = useContext(LinkContext);
 
   const createPaper = () => {
     if (paper === "") {
+      if (showTitle === 0) {
+        setShowTitle((prev) => prev + 1);
+      }
       paper = new dia.Paper({
         el: paperRef.current,
         width: 900,
@@ -55,6 +58,15 @@ const KitchenSkin = () => {
             return [];
           });
           linkArr = linkArr.filter((link) => link.id !== linkId);
+          let entityId = "";
+          createdEntities.map((entity) => {
+            if (entity.id === cellView.model.id || entity.id === cellView.model.id) {
+              console.log(entity.id, cellView.model.id)
+              entityId = entity.id;
+            }
+            return [];
+          });
+          createdEntities = createdEntities.filter(entity => entity.id !== entityId)
         }
       });
 
@@ -79,20 +91,23 @@ const KitchenSkin = () => {
       });
 
       paperInstance.current.on("link:pointermove", (linkView, event, x, y) => {
-        if (linkInProgress.current === linkView.model) {
+        if (resize.current) {
+
+        } else if (linkInProgress.current === linkView.model) {
           linkView.model.target({ x, y });
+
+          createdEntities.map((entity) => {
+            let pos = entity.attributes.position;
+            let wid = entity.attributes.size;
+            if (x <= pos.x + wid.width && y <= pos.y + wid.height && x >= pos.x && y >= pos.y && linkChangeflag.current) {
+              linkInProgress.current.remove();
+              updateLink(paperInstance, linkView.model, entity.id);
+              linkChangeflag.current = false;
+            }
+            return [];
+          });
         }
 
-        createdEntities.map((entity) => {
-          let pos = entity.attributes.position;
-          let wid = entity.attributes.size;
-          if (x <= pos.x + wid.width && y <= pos.y + wid.height && x >= pos.x && y >= pos.y && linkChangeflag.current) {
-            linkInProgress.current.remove();
-            updateLink(paperInstance, linkView.model, entity.id);
-            linkChangeflag.current = false;
-          }
-          return [];
-        });
       });
 
       paperInstance.current.on("element:pointerdblclick", (cellView) => {
@@ -106,9 +121,9 @@ const KitchenSkin = () => {
       });
 
       paperInstance.current.on("blank:pointerclick", (event, x, y) => {
-        if (showTitle === 0) {
-          setShowTitle((prev) => prev + 1);
-        }
+        // if (showTitle === 0) {
+        //   setShowTitle((prev) => prev + 1);
+        // }
         if (shapeRef.current === "rectangle") {
           totalShapes.current = totalShapes.current + 1;
           createRectangle(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
@@ -124,8 +139,19 @@ const KitchenSkin = () => {
         }
         // shapeRef.current = "";
       });
+
+      paperInstance.current.on("element:pointerdblclick", (cellView) => {
+        console.log(cellView.model)
+      })
     }
   };
+
+  linkArr.map(link => {
+    let arr = [];
+    arr.push(link);
+    console.log(arr);
+    return arr
+  })
 
   const handleRect = () => {
     shapeRef.current = "rectangle";
@@ -146,29 +172,29 @@ const KitchenSkin = () => {
 
   return (
     <div className="kitchen-skin">
-      {showTitle === 0 && (
+      { showTitle === 0 && (
         <div className="header">
           <h1>ER Diagram Sketcher</h1>
         </div>
-      )}
-      <Grid columns={3}>
-        <GridRow columns={3} className="erd-sketcher">
-          <GridColumn width={3} className="stencil">
+      ) }
+      <Grid columns={ 3 }>
+        <GridRow columns={ 3 } className="erd-sketcher">
+          <GridColumn width={ 3 } className="stencil">
             <div className="standard">
               {/* <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/shapes/rectangle.png") } />
               <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/shapes/ellipse.png") } />
               <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/shapes/rhombus.jpeg") } />
               <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/shapes/circle.png") } /> */}
-              <Image className="img" onClick={() => handleRect()} src={require("../../assets/images/rectangle.png")} />
-              <Image className="img" onClick={() => handleEllip()} src={require("../../assets/images/ellipse.png")} />
-              <Image className="img" onClick={() => handleRhom()} src={require("../../assets/images/rohmbus.png")} />
-              <Image className="img" onClick={() => handleCirc()} src={require("../../assets/images/circle.png")} />
+              <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/images/rectangle.png") } />
+              <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/images/ellipse.png") } />
+              <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/images/rohmbus.png") } />
+              <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/images/circle.png") } />
             </div>
           </GridColumn>
-          <GridColumn width={10} className="paper-container">
-            <div className="paper" ref={paperRef} />
+          <GridColumn width={ 11 } className="paper-container">
+            <div className="paper" ref={ paperRef } />
           </GridColumn>
-          <GridColumn width={3} className="inspector"></GridColumn>
+          <GridColumn width={ 2 } className="inspector"></GridColumn>
         </GridRow>
         <GridRow className="erd-options">
           <OptionContainer />

@@ -3,9 +3,9 @@ import { shapes } from "jointjs";
 export const createRectangle = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   const rect = new shapes.standard.Rectangle();
   rect.position(x, y);
-  rect.resize(100, 40);
+  rect.resize(110, 50);
   // rect.resize(100, 100);
-  rect.attr('root/title', 'joint.shapes.standard.Rectangle');
+  rect.attr('root/title', 'joint.shapes.standard.Rectangle'); 
   rect.attr('label/text', 'Rectangle');
   rect.attr('body/fill', 'skyblue');
   rect.attr("id", id);
@@ -16,7 +16,7 @@ export const createRectangle = (paperInstance, x, y, id, createdShapes, createdE
 
 export const createEllipse = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var ellipse = new shapes.standard.Ellipse();
-  ellipse.resize(80, 50);
+  ellipse.resize(140, 60);
   // ellipse.resize(150, 100);
   ellipse.position(x, y);
   ellipse.attr('root/title', 'joint.shapes.standard.Ellipse');
@@ -30,7 +30,8 @@ export const createEllipse = (paperInstance, x, y, id, createdShapes, createdEnt
 
 export const createRhombus = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var polygon = new shapes.standard.Polygon();
-  polygon.resize(120, 50);
+  polygon.resize(120, 80);
+  // polygon.resize(120, 50);
   // polygon.resize(100, 100);
   polygon.position(x, y);
   polygon.attr('root/title', 'joint.shapes.standard.Polygon');
@@ -45,7 +46,7 @@ export const createRhombus = (paperInstance, x, y, id, createdShapes, createdEnt
 
 export const createCircle = (paperInstance, x, y, id, createdShapes, createdEntities) => {
   var circle = new shapes.standard.Circle();
-  circle.resize(50, 50);
+  circle.resize(80, 80);
   // circle.resize(100, 100);
   circle.position(x, y);
   circle.attr('root/title', 'joint.shapes.standard.Circle');

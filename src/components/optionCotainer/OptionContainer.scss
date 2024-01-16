@@ -1,8 +1,10 @@
+$primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+
 .option-container {
   .options {
     display: flex;
     gap: 20px;
-    filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+    filter: $primary-drop-shadow;
 
     & > div {
       width: 50px;
@@ -12,6 +14,7 @@
     .add-link,
     .remove-link,
     .remove-shape,
+    .move,
     .download-canvas,
     .export-To-Json {
       .descText {
@@ -33,16 +36,24 @@
         left: 57px;
       }
 
+      .show-move {
+        position: absolute;
+        top: -15px;
+        left: 152px;
+      }
+
       .show-remove-shape {
         position: absolute;
         top: -15px;
-        left: 120px;
+        // left: 190px;
+        right: 120px;
       }
 
       .show-download-canvas {
         position: absolute;
         top: -15px;
-        left: 180px;
+        // left: 250px;
+        right: 50px;
       }
 
       .show-export-To-Json {
@@ -54,7 +65,7 @@
 
     .add-link:hover {
       .add-link-btn {
-        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+        filter: $primary-drop-shadow;
       }
       .show-add-link {
         display: block;
@@ -62,7 +73,7 @@
     }
     .remove-link:hover {
       .remove-link-btn {
-        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+        filter: $primary-drop-shadow;
       }
       .show-remove-link {
         display: block;
@@ -70,15 +81,23 @@
     }
     .remove-shape:hover {
       .remove-shape-btn {
-        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+        filter: $primary-drop-shadow;
       }
       .show-remove-shape {
         display: block;
       }
     }
+    .move:hover {
+      .move-btn {
+        filter: $primary-drop-shadow;
+      }
+      .show-move {
+        display: block;
+      }
+    }
     .download-canvas:hover {
       .download-canvas-btn {
-        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+        filter: $primary-drop-shadow;
       }
       .show-download-canvas {
         display: block;
@@ -86,7 +105,7 @@
     }
     .export-To-Json:hover {
       .export-To-Json-btn {
-        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+        filter: $primary-drop-shadow;
       }
       .show-export-To-Json {
         display: block;

@@ -7,6 +7,7 @@ export const LinkContext = createContext();
 export const LinkContextProvider = ({ children }) => {
   const addLink = useRef(false);
   const removeLink = useRef(false);
+  const resize = useRef(false);
   const removeShape = useRef(false);
   const downloadCanvas = useRef(false);
   const exportJson = useRef(false);
@@ -73,7 +74,7 @@ export const LinkContextProvider = ({ children }) => {
   };
 
   return (
-    <LinkContext.Provider value={ { addLink, removeLink, removeShape, downloadCanvas, exportToJSON, updateContext } }>
+    <LinkContext.Provider value={ { addLink, removeLink, resize, removeShape, downloadCanvas, exportToJSON, updateContext } }>
       { children }
     </LinkContext.Provider>
   );

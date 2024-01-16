@@ -44,8 +44,18 @@ const OptionContainer = () => {
             size='large'
           />
         </div>
+        <div className="move">
+          <p className={ "descText show-move" }>Resize</p>
+          <Button
+            className={ `move-btn ${activeButton === "move" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("move") }
+            primary={ activeButton === "move" }
+            icon="move"
+            size='large'
+          />
+        </div>
         <div className="remove-shape">
-          <p className={ "descText show-remove-shape" }>Remove Elements</p>
+          <p className={ "descText show-remove-shape" }>Remove Element</p>
           <Button
             className={ `remove-shape-btn ${activeButton === "removeShape" ? 'active' : ''}` }
             onClick={ () => handleUpdateContext("removeShape") }

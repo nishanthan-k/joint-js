@@ -41,7 +41,7 @@ export const updateLink = (paperInstance, link, newTarget) => {
 }
 
 
-export const deleteLink = (paperInstance, linkId) => {
+export const deleteLink = (paperInstance, linkId, linkArr) => {
   const linkToRemove = paperInstance.current.model.getCell(linkId);
   if (linkToRemove) {
     linkToRemove.remove();

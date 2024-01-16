@@ -1,5 +1,5 @@
 import { dia } from "jointjs";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Grid, GridColumn, GridRow, Image } from "semantic-ui-react";
 import { createCircle, createEllipse, createRectangle, createRhombus } from "../../commonFunctions/ShapeFunctions";
 import { createLink, deleteLink, updateLink } from "../../commonFunctions/genreralFunctions";
@@ -9,12 +9,13 @@ import { LinkContext } from "../../contexts/LinkContext";
 import "./KitchenSkin.scss";
 
 const KitchenSkin = () => {
+  const [showTitle, setShowTitle] = useState(0);
   const createdShapes = useRef([]);
   const totalShapes = useRef(null);
   const linkChangeflag = useRef(false);
   const selectedShape = [];
   // const selectedLink = [];
-  const linkArr = [];
+  let linkArr = [];
   totalShapes.current = 0;
   const createdEntities = [];
   let paper = "";
@@ -45,12 +46,15 @@ const KitchenSkin = () => {
           }
         } else if (removeShape.current) {
           cellView.remove();
-          // linkArr.map(link => {
-          // if (link.attributes.source.id === null || link.attributes.target.id === null) {
-          //   console.log(link.id)
-          // }
-          // // console.log(link)
-          // })
+          let linkId = "";
+          linkArr.map(link => {
+            if (link.attributes.source.id === cellView.model.id || link.attributes.target.id === cellView.model.id) {
+              linkId = link.id;
+              deleteLink(paperInstance, link.id, linkArr)
+            }
+            return [];
+          })
+          linkArr = linkArr.filter(link => link.id !== linkId)
         }
       });
 
@@ -58,7 +62,7 @@ const KitchenSkin = () => {
         if (removeLink.current) {
           linkView.remove();
           // console.log('delete call', linkArr)
-          deleteLink(paperInstance, linkView.model.id)
+          deleteLink(paperInstance, linkView.model.id, linkArr)
         }
         linkInProgress.current = linkView.model;
         linkChangeflag.current = true;
@@ -78,7 +82,6 @@ const KitchenSkin = () => {
         if (linkInProgress.current === linkView.model) {
           linkView.model.target({ x, y });
         }
-
 
         createdEntities.map(entity => {
           let pos = entity.attributes.position;
@@ -102,8 +105,10 @@ const KitchenSkin = () => {
         }
       });
 
-
       paperInstance.current.on("blank:pointerclick", (event, x, y) => {
+        if (showTitle === 0) {
+          setShowTitle(prev => prev+1);
+        }
         if (shapeRef.current === "rectangle") {
           totalShapes.current = totalShapes.current + 1;
           createRectangle(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
@@ -141,11 +146,12 @@ const KitchenSkin = () => {
 
   return (
     <div className="kitchen-skin">
-      {/* { paperInstance.current === null && ( */ }
+      { showTitle === 0 && (  
       <div className="header" >
         <h1>ER Diagram Sketcher </h1>
       </div>
-      {/* ) } */ }
+      
+      )} 
       <Grid columns={ 3 } >
         <GridRow columns={ 3 } className="erd-sketcher" >
           <GridColumn width={ 3 } className="stencil" >

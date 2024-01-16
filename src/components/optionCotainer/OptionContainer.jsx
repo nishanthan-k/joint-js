@@ -24,46 +24,56 @@ const OptionContainer = () => {
   return (
     <GridRow className='option-container'>
       <Segment className='options'>
-        <p className={ `add-link ${activeButton === "addLink" ? 'show-add-link' : ''}` }>Add Link</p>
-        <Button
-          className={ `add-link-btn ${activeButton === "addLink" ? 'active-add-link' : ''}` }
-          onClick={ () => handleUpdateContext("addLink") }
-          primary={ activeButton === "addLink" }
-          icon="linkify"
-          size='large'
-        />
-        <p className={ `remove-link ${activeButton === "removeLink" ? 'show-remove-link' : ''}` }>Remove Link</p>
-        <Button
-          className={ `remove-link-btn ${activeButton === "removeLink" ? 'active' : ''}` }
-          onClick={ () => handleUpdateContext("removeLink") }
-          primary={ activeButton === "removeLink" }
-          icon="unlinkify"
-          size='large'
-        />
-        <p className={ `remove-shape ${activeButton === "removeShape" ? 'show-remove-shape' : ''}` }>Remove Elements</p>
-        <Button
-          className={ `remove-shape-btn ${activeButton === "removeShape" ? 'active' : ''}` }
-          onClick={ () => handleUpdateContext("removeShape") }
-          primary={ activeButton === "removeShape" }
-          icon="remove circle"
-          size='large'
-        />
-        <p className={ `download-canvas ${activeButton === "removeShape" ? 'show-download-canvas' : ''}` }>Download</p>
-        <Button
-          className={ `download-canvas-btn ${activeButton === "removeShape" ? 'active' : ''}` }
-          onClick={ () => handleUpdateContext("downloadCanvas") }
-          primary={ activeButton === "downloadCanvas" }
-          icon="download"
-          size='large'
-        />
-        <p className={ `export-To-Json ${activeButton === "removeShape" ? 'show-export-To-Json' : ''}` }>Download</p>
-        <Button
-          className={ `export-To-Json-btn ${activeButton === "removeShape" ? 'active' : ''}` }
-          onClick={ () => handleUpdateContext("exportToJson") }
-          primary={ activeButton === "exportToJson" }
-          icon="share square"
-          size='large'
-        />
+        <div className="add-link">
+          <p className={ "descText show-add-link" }>Add Link</p>
+          <Button
+            className={ `add-link-btn ${activeButton === "addLink" ? 'active-add-link' : ''}` }
+            onClick={ () => handleUpdateContext("addLink") }
+            primary={ activeButton === "addLink" }
+            icon="linkify"
+            size='large'
+          />
+        </div>
+        <div className="remove-link">
+          <p className={ "descText show-remove-link" }>Remove Link</p>
+          <Button
+            className={ `remove-link-btn ${activeButton === "removeLink" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("removeLink") }
+            primary={ activeButton === "removeLink" }
+            icon="unlinkify"
+            size='large'
+          />
+        </div>
+        <div className="remove-shape">
+          <p className={ "descText show-remove-shape" }>Remove Elements</p>
+          <Button
+            className={ `remove-shape-btn ${activeButton === "removeShape" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("removeShape") }
+            primary={ activeButton === "removeShape" }
+            icon="remove circle"
+            size='large'
+          />
+        </div>
+        <div className="download-canvas">
+          <p className={ "descText show-download-canvas" }>Download Image</p>
+          <Button
+            className={ `download-canvas-btn ${activeButton === "removeShape" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("downloadCanvas") }
+            primary={ activeButton === "downloadCanvas" }
+            icon="download"
+            size='large'
+          />
+        </div>
+        <div className="export-To-Json">
+          <p className={ "descText show-export-To-Json" }>Download JSON</p>
+          <Button
+            className={ `export-To-Json-btn ${activeButton === "removeShape" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("exportToJson") }
+            primary={ activeButton === "exportToJson" }
+            icon="share square"
+            size='large'
+          />
+        </div>
       </Segment>
     </GridRow>
   );

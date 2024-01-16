@@ -1,59 +1,81 @@
 .option-container {
-  margin-bottom: 20px;
   .options {
     display: flex;
-    justify-content: space-around;
-    gap: 15px;
-    position: relative;
+    gap: 20px;
     filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+
+    & > div {
+      width: 50px;
+      // position: relative;
+    }
 
     .add-link,
     .remove-link,
     .remove-shape,
     .download-canvas,
     .export-To-Json {
-      display: none;
+
+      .descText {
+        display: none;
+        font-size: 16px;
+        font-weight: 550;
+      }
+
+      .show-add-link {
+        position: absolute;
+        top: -15px;
+        left: 4px;
+      }
+      
+      .show-remove-link {
+        position: absolute;
+        top: -15px;
+        left: 57px;
+      }
+      
+      .show-remove-shape {
+        position: absolute;
+        top: -15px;
+        left: 120px;
+      }
+      
+      .show-download-canvas {
+        position: absolute;
+        top: -15px;
+        left: 180px;
+      }
+      
+      .show-export-To-Json {
+        position: absolute;
+        top: -15px;
+        right: -15px
+      }
     }
 
-    .active-option {
-      background-color: blue;
-      border: 1px solid;
+    .add-link:hover {
+      .show-add-link {
+        display: block;
+      }
     }
-
-    // .show-add-link {
-    //   // text-shadow: 5px 5px 10px black;
-    //   display: block;
-    //   position: absolute;
-    //   left: 5px;
-    //   top: -15px;
-    //   font-size: 16px;
-    // }
-
-    // .show-remove-link {
-    //   // text-shadow: 5px 5px 10px black;
-    //   display: block;
-    //   position: absolute;
-    //   left: 50px;
-    //   top: -15px;
-    //   font-size: 16px;
-    // }
-
-    // .show-remove-shape {
-    //   // text-shadow: 5px 5px 10px black;
-    //   display: block;
-    //   position: absolute;
-    //   right: -25px;
-    //   top: -15px;
-    //   font-size: 16px;
-    // }
-
-    .active-add-link:hover + .show-add-link {
-      // text-shadow: 5px 5px 10px black;
-      display: block;
-      position: absolute;
-      left: 5px;
-      top: -15px;
-      font-size: 16px;
+    .remove-link:hover {
+      .show-remove-link {
+        display: block;
+      }
+    }
+    .remove-shape:hover {
+      .show-remove-shape {
+        display: block;
+      }
+    }
+    .download-canvas:hover {
+      .show-download-canvas {
+        display: block;
+      }
+    }
+    .export-To-Json:hover {
+      .show-export-To-Json {
+        display: block;
+      }
     }
   }
 }

@@ -14,11 +14,11 @@
     .remove-shape,
     .download-canvas,
     .export-To-Json {
-
       .descText {
         display: none;
         font-size: 16px;
         font-weight: 550;
+        filter: drop-shadow(5px 5px 5px gray);
       }
 
       .show-add-link {
@@ -26,53 +26,68 @@
         top: -15px;
         left: 4px;
       }
-      
+
       .show-remove-link {
         position: absolute;
         top: -15px;
         left: 57px;
       }
-      
+
       .show-remove-shape {
         position: absolute;
         top: -15px;
         left: 120px;
       }
-      
+
       .show-download-canvas {
         position: absolute;
         top: -15px;
         left: 180px;
       }
-      
+
       .show-export-To-Json {
         position: absolute;
         top: -15px;
-        right: -15px
+        right: -15px;
       }
     }
 
     .add-link:hover {
+      .add-link-btn {
+        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+      }
       .show-add-link {
         display: block;
       }
     }
     .remove-link:hover {
+      .remove-link-btn {
+        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+      }
       .show-remove-link {
         display: block;
       }
     }
     .remove-shape:hover {
+      .remove-shape-btn {
+        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+      }
       .show-remove-shape {
         display: block;
       }
     }
     .download-canvas:hover {
+      .download-canvas-btn {
+        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+      }
       .show-download-canvas {
         display: block;
       }
     }
     .export-To-Json:hover {
+      .export-To-Json-btn {
+        filter: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+      }
       .show-export-To-Json {
         display: block;
       }

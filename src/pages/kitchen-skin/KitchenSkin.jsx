@@ -21,8 +21,8 @@ const KitchenSkin = () => {
   let paper = "";
   const linkInProgress = useRef(null);
   const oldTarget = useRef(null);
-  const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext)
-  const { addLink, removeLink, removeShape } = useContext(LinkContext)
+  const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext);
+  const { addLink, removeLink, removeShape } = useContext(LinkContext);
 
   const createPaper = () => {
     if (paper === "") {
@@ -36,9 +36,9 @@ const KitchenSkin = () => {
 
       paperInstance.current.on("element:pointerclick", (cellView) => {
         if (addLink.current) {
-          if (selectedShape.length === 0 && !selectedShape.find(shape => shape === cellView)) {
+          if (selectedShape.length === 0 && !selectedShape.find((shape) => shape === cellView)) {
             selectedShape.push(cellView.model);
-          } else if (selectedShape.length === 1 && !selectedShape.find(shape => shape === cellView)) {
+          } else if (selectedShape.length === 1 && !selectedShape.find((shape) => shape === cellView)) {
             selectedShape.push(cellView.model);
             createLink(paperInstance, selectedShape, linkArr);
             selectedShape.splice(0, selectedShape.length);
@@ -47,14 +47,14 @@ const KitchenSkin = () => {
         } else if (removeShape.current) {
           cellView.remove();
           let linkId = "";
-          linkArr.map(link => {
+          linkArr.map((link) => {
             if (link.attributes.source.id === cellView.model.id || link.attributes.target.id === cellView.model.id) {
               linkId = link.id;
-              deleteLink(paperInstance, link.id, linkArr)
+              deleteLink(paperInstance, link.id, linkArr);
             }
             return [];
-          })
-          linkArr = linkArr.filter(link => link.id !== linkId)
+          });
+          linkArr = linkArr.filter((link) => link.id !== linkId);
         }
       });
 
@@ -62,12 +62,12 @@ const KitchenSkin = () => {
         if (removeLink.current) {
           linkView.remove();
           // console.log('delete call', linkArr)
-          deleteLink(paperInstance, linkView.model.id, linkArr)
+          deleteLink(paperInstance, linkView.model.id, linkArr);
         }
         linkInProgress.current = linkView.model;
         linkChangeflag.current = true;
         oldTarget.current = linkInProgress.current.attributes.target.id;
-      })
+      });
 
       paperInstance.current.on("link:pointerup", (linkView) => {
         // console.log(removeLink.current)
@@ -75,39 +75,39 @@ const KitchenSkin = () => {
           updateLink(paperInstance, linkView.model, oldTarget.current);
         }
         // linkView.model.remove()
-        linkChangeflag.current = false
-      })
+        linkChangeflag.current = false;
+      });
 
       paperInstance.current.on("link:pointermove", (linkView, event, x, y) => {
         if (linkInProgress.current === linkView.model) {
           linkView.model.target({ x, y });
         }
 
-        createdEntities.map(entity => {
+        createdEntities.map((entity) => {
           let pos = entity.attributes.position;
           let wid = entity.attributes.size;
-          if ((x <= pos.x + wid.width) && (y <= pos.y + wid.height) && (x >= pos.x) && (y >= pos.y) && linkChangeflag.current) {
-            linkInProgress.current.remove()
+          if (x <= pos.x + wid.width && y <= pos.y + wid.height && x >= pos.x && y >= pos.y && linkChangeflag.current) {
+            linkInProgress.current.remove();
             updateLink(paperInstance, linkView.model, entity.id);
             linkChangeflag.current = false;
           }
-          return []
-        })
-      })
+          return [];
+        });
+      });
 
       paperInstance.current.on("element:pointerdblclick", (cellView) => {
         const model = cellView.model;
-        const text = prompt("Enter new text:", model.attr('label/text'));
+        const text = prompt("Enter new text:", model.attr("label/text"));
         if (text !== null) {
-          model.attr('label/text', text);
-          var width = Math.max(text.length * 7, model.attributes.size.width)
-          model.resize(width, model.attributes.size.height)
+          model.attr("label/text", text);
+          var width = Math.max(text.length * 7, model.attributes.size.width);
+          model.resize(width, model.attributes.size.height);
         }
       });
 
       paperInstance.current.on("blank:pointerclick", (event, x, y) => {
         if (showTitle === 0) {
-          setShowTitle(prev => prev+1);
+          setShowTitle((prev) => prev + 1);
         }
         if (shapeRef.current === "rectangle") {
           totalShapes.current = totalShapes.current + 1;
@@ -130,48 +130,47 @@ const KitchenSkin = () => {
   const handleRect = () => {
     shapeRef.current = "rectangle";
     createPaper();
-  }
+  };
   const handleEllip = () => {
     shapeRef.current = "ellipse";
     createPaper();
-  }
+  };
   const handleRhom = () => {
     shapeRef.current = "rhombus";
     createPaper();
-  }
+  };
   const handleCirc = () => {
     shapeRef.current = "circle";
     createPaper();
-  }
+  };
 
   return (
     <div className="kitchen-skin">
-      { showTitle === 0 && (  
-      <div className="header" >
-        <h1>ER Diagram Sketcher </h1>
-      </div>
-      
-      )} 
-      <Grid columns={ 3 } >
-        <GridRow columns={ 3 } className="erd-sketcher" >
-          <GridColumn width={ 3 } className="stencil" >
+      {showTitle === 0 && (
+        <div className="header">
+          <h1>ER Diagram Sketcher</h1>
+        </div>
+      )}
+      <Grid columns={3}>
+        <GridRow columns={3} className="erd-sketcher">
+          <GridColumn width={3} className="stencil">
             <div className="standard">
               {/* <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/shapes/rectangle.png") } />
               <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/shapes/ellipse.png") } />
               <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/shapes/rhombus.jpeg") } />
               <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/shapes/circle.png") } /> */}
-              <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/images/rectangle.png") } />
-              <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/images/ellipse.png") } />
-              <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/images/rohmbus.png") } />
-              <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/images/circle.png") } />
+              <Image className="img" onClick={() => handleRect()} src={require("../../assets/images/rectangle.png")} />
+              <Image className="img" onClick={() => handleEllip()} src={require("../../assets/images/ellipse.png")} />
+              <Image className="img" onClick={() => handleRhom()} src={require("../../assets/images/rohmbus.png")} />
+              <Image className="img" onClick={() => handleCirc()} src={require("../../assets/images/circle.png")} />
             </div>
           </GridColumn>
-          <GridColumn width={ 10 } className="paper-container" >
-            <div className="paper" ref={ paperRef } />
+          <GridColumn width={10} className="paper-container">
+            <div className="paper" ref={paperRef} />
           </GridColumn>
-          <GridColumn width={ 3 } className="inspector"></GridColumn>
+          <GridColumn width={3} className="inspector"></GridColumn>
         </GridRow>
-        <GridRow className="erd-options" >
+        <GridRow className="erd-options">
           <OptionContainer />
         </GridRow>
       </Grid>

@@ -14,7 +14,6 @@ const KitchenSkin = () => {
   const totalShapes = useRef(null);
   const linkChangeflag = useRef(false);
   const selectedShape = [];
-  // const selectedLink = [];
   let linkArr = [];
   totalShapes.current = 0;
   let createdEntities = [];
@@ -23,6 +22,11 @@ const KitchenSkin = () => {
   const oldTarget = useRef(null);
   const { paperRef, paperInstance, shapeRef } = useContext(CanvasContext);
   const { addLink, removeLink, resize, removeShape } = useContext(LinkContext);
+
+  const resizeInfo = useRef({
+    isResizing: false,
+    initialSize: { width: 0, height: 0 },
+  });
 
   const createPaper = () => {
     if (paper === "") {
@@ -61,12 +65,42 @@ const KitchenSkin = () => {
           let entityId = "";
           createdEntities.map((entity) => {
             if (entity.id === cellView.model.id || entity.id === cellView.model.id) {
-              console.log(entity.id, cellView.model.id)
               entityId = entity.id;
             }
             return [];
           });
           createdEntities = createdEntities.filter(entity => entity.id !== entityId)
+        }
+
+        else if (resize.current) {
+          paperInstance.current.on('element:pointerdown', (cellView, evt, x, y) => {
+
+            if (cellView.model && cellView.model.isElement() && resize.current) {
+              resizeInfo.current.isResizing = true;
+              resizeInfo.current.initialPointerPos = { x: evt.clientX, y: evt.clientY };
+              resizeInfo.current.initialSize = cellView.model.size();
+            }
+          });
+
+          paperInstance.current.on('element:pointermove', (cellView, evt, x, y) => {
+            console.log('resize onmove', resizeInfo.current.isResizing)
+            if (resizeInfo.current.isResizing) {
+              const diffX = evt.clientX - resizeInfo.current.initialPointerPos.x;
+              const diffY = evt.clientY - resizeInfo.current.initialPointerPos.y;
+
+              const newWidth = Math.max(0, resizeInfo.current.initialSize.width + diffX);
+              const newHeight = Math.max(0, resizeInfo.current.initialSize.height + diffY);
+
+              cellView.model.resize(newWidth, newHeight);
+            }
+          });
+
+          paperInstance.current.on('element:pointerup', (cellView) => {
+            if (resizeInfo.current.isResizing === true) {
+              resizeInfo.current.isResizing = false;
+            }
+            console.log('resize onup', resizeInfo.current.isResizing)
+          });
         }
       });
 
@@ -91,9 +125,7 @@ const KitchenSkin = () => {
       });
 
       paperInstance.current.on("link:pointermove", (linkView, event, x, y) => {
-        if (resize.current) {
-
-        } else if (linkInProgress.current === linkView.model) {
+        if (linkInProgress.current === linkView.model) {
           linkView.model.target({ x, y });
 
           createdEntities.map((entity) => {
@@ -107,16 +139,17 @@ const KitchenSkin = () => {
             return [];
           });
         }
-
       });
 
       paperInstance.current.on("element:pointerdblclick", (cellView) => {
-        const model = cellView.model;
-        const text = prompt("Enter new text:", model.attr("label/text"));
-        if (text !== null) {
-          model.attr("label/text", text);
-          var width = Math.max(text.length * 7, model.attributes.size.width);
-          model.resize(width, model.attributes.size.height);
+        if (!resize.current) {
+          const model = cellView.model;
+          const text = prompt("Enter new text:", model.attr("label/text"));
+          if (text !== null) {
+            model.attr("label/text", text);
+            var width = Math.max(text.length * 7, model.attributes.size.width);
+            model.resize(width, model.attributes.size.height);
+          }
         }
       });
 
@@ -139,19 +172,8 @@ const KitchenSkin = () => {
         }
         // shapeRef.current = "";
       });
-
-      paperInstance.current.on("element:pointerdblclick", (cellView) => {
-        console.log(cellView.model)
-      })
     }
   };
-
-  linkArr.map(link => {
-    let arr = [];
-    arr.push(link);
-    console.log(arr);
-    return arr
-  })
 
   const handleRect = () => {
     shapeRef.current = "rectangle";

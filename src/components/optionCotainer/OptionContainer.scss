@@ -14,7 +14,7 @@ $primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
     .add-link,
     .remove-link,
     .remove-shape,
-    .move,
+    .resize,
     .download-canvas,
     .export-To-Json {
       .descText {
@@ -36,7 +36,7 @@ $primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
         left: 57px;
       }
 
-      .show-move {
+      .show-resize {
         position: absolute;
         top: -15px;
         left: 152px;
@@ -87,11 +87,11 @@ $primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
         display: block;
       }
     }
-    .move:hover {
-      .move-btn {
+    .resize:hover {
+      .resize-btn {
         filter: $primary-drop-shadow;
       }
-      .show-move {
+      .show-resize {
         display: block;
       }
     }

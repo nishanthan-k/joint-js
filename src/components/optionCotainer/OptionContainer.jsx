@@ -44,12 +44,12 @@ const OptionContainer = () => {
             size='large'
           />
         </div>
-        <div className="move">
-          <p className={ "descText show-move" }>Resize</p>
+        <div className="resize">
+          <p className={ "descText show-resize" }>Resize</p>
           <Button
-            className={ `move-btn ${activeButton === "move" ? 'active' : ''}` }
-            onClick={ () => handleUpdateContext("move") }
-            primary={ activeButton === "move" }
+            className={ `resize-btn ${activeButton === "resize" ? 'active' : ''}` }
+            onClick={ () => handleUpdateContext("resize") }
+            primary={ activeButton === "resize" }
             icon="move"
             size='large'
           />

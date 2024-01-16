@@ -51,27 +51,24 @@ export const LinkContextProvider = ({ children }) => {
   };
 
   const updateContext = (item) => {
-    addLink.current = false;
-    removeLink.current = false;
-    removeShape.current = false;
-    downloadCanvas.current = false;
-    exportJson.current = false;
+    addLink.current = item === "addLink" ? !addLink.current : false;
+    removeLink.current = item === "removeLink" ? !removeLink.current : false;
+    resize.current = item === "resize" ? !resize.current : false;
+    removeShape.current = item === "removeShape" ? !removeShape.current : false;
+    downloadCanvas.current = item === "downloadCanvas" ? !downloadCanvas.current : false;
+    exportJson.current = item === "exportToJson" ? !exportJson.current : false;
     shapeRef.current = "";
 
-    if (item === "addLink") {
-      addLink.current = !addLink.current;
-    } else if (item === "removeLink") {
-      removeLink.current = !removeLink.current
-    } else if (item === "removeShape") {
-      removeShape.current = !removeShape.current;
-    } else if (item === "downloadCanvas") {
+    if (item === "downloadCanvas") {
       downloadDiagram();
     } else if (item === "exportToJson") {
       exportToJSON();
     }
 
-    // console.log(addLink, removeLink, removeShape, downloadCanvas, exportJson)
+    console.log(addLink, removeLink, resize, removeShape, downloadCanvas, exportJson);
   };
+
+
 
   return (
     <LinkContext.Provider value={ { addLink, removeLink, resize, removeShape, downloadCanvas, exportToJSON, updateContext } }>

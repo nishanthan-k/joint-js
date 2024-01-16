@@ -9,6 +9,7 @@ export const createRectangle = (paperInstance, x, y, id, createdShapes, createdE
   rect.attr('label/text', 'Rectangle');
   rect.attr('body/fill', 'skyblue');
   rect.attr("id", id);
+  rect.attr("resizable", true);
   createdShapes.current.push(rect);
   createdEntities.push(rect)
   paperInstance.current.model.addCell(rect);

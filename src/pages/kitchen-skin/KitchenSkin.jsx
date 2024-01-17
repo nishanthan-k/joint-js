@@ -3,13 +3,13 @@ import React, { useContext, useRef, useState } from "react";
 import { Grid, GridColumn, GridRow, Image } from "semantic-ui-react";
 import { createCircle, createEllipse, createRectangle, createRhombus } from "../../commonFunctions/ShapeFunctions";
 import { createLink, deleteLink, updateLink } from "../../commonFunctions/genreralFunctions";
-import OptionContainer from "../../components/optionCotainer/OptionContainer";
+import OptionContainer from "../../components/optionContainer/OptionContainer";
 import { CanvasContext } from "../../contexts/CanvasContext";
 import { LinkContext } from "../../contexts/LinkContext";
 import "./KitchenSkin.scss";
 
 const KitchenSkin = () => {
-  const [showTitle, setShowTitle] = useState(0);
+  const [showTitle, setShowTitle] = useState(true);
   const createdShapes = useRef([]);
   const totalShapes = useRef(null);
   const linkChangeflag = useRef(false);
@@ -30,9 +30,9 @@ const KitchenSkin = () => {
 
   const createPaper = () => {
     if (paper === "") {
-      if (showTitle === 0) {
-        setShowTitle((prev) => prev + 1);
-      }
+      // if (showTitle) {
+      //   setShowTitle(false);
+      // }
       paper = new dia.Paper({
         el: paperRef.current,
         width: 900,
@@ -69,24 +69,21 @@ const KitchenSkin = () => {
             }
             return [];
           });
-          createdEntities = createdEntities.filter(entity => entity.id !== entityId)
-        }
-
-        else if (resize.current) {
-          paperInstance.current.on('element:pointerdown', (cellView, evt, x, y) => {
-
+          createdEntities = createdEntities.filter((entity) => entity.id !== entityId);
+        } else if (resize.current) {
+          paperInstance.current.on("element:pointerdown", (cellView, event, x, y) => {
             if (cellView.model && cellView.model.isElement() && resize.current) {
               resizeInfo.current.isResizing = true;
-              resizeInfo.current.initialPointerPos = { x: evt.clientX, y: evt.clientY };
+              resizeInfo.current.initialPointerPos = { x: event.clientX, y: event.clientY };
               resizeInfo.current.initialSize = cellView.model.size();
             }
           });
 
-          paperInstance.current.on('element:pointermove', (cellView, evt, x, y) => {
-            console.log('resize onmove', resizeInfo.current.isResizing)
+          paperInstance.current.on("element:pointermove", (cellView, event, x, y) => {
+            console.log("resize onmove", resizeInfo.current.isResizing);
             if (resizeInfo.current.isResizing) {
-              const diffX = evt.clientX - resizeInfo.current.initialPointerPos.x;
-              const diffY = evt.clientY - resizeInfo.current.initialPointerPos.y;
+              const diffX = event.clientX - resizeInfo.current.initialPointerPos.x;
+              const diffY = event.clientY - resizeInfo.current.initialPointerPos.y;
 
               const newWidth = Math.max(0, resizeInfo.current.initialSize.width + diffX);
               const newHeight = Math.max(0, resizeInfo.current.initialSize.height + diffY);
@@ -95,11 +92,11 @@ const KitchenSkin = () => {
             }
           });
 
-          paperInstance.current.on('element:pointerup', (cellView) => {
+          paperInstance.current.on("element:pointerup", (cellView) => {
             if (resizeInfo.current.isResizing === true) {
               resizeInfo.current.isResizing = false;
             }
-            console.log('resize onup', resizeInfo.current.isResizing)
+            console.log("resize onup", resizeInfo.current.isResizing);
           });
         }
       });
@@ -147,16 +144,13 @@ const KitchenSkin = () => {
           const text = prompt("Enter new text:", model.attr("label/text"));
           if (text !== null) {
             model.attr("label/text", text);
-            var width = Math.max(text.length * 7, model.attributes.size.width);
-            model.resize(width, model.attributes.size.height);
+            // var width = Math.max(text.length * 7, model.attributes.size.width);
+            // model.resize(width, model.attributes.size.height);
           }
         }
       });
 
       paperInstance.current.on("blank:pointerclick", (event, x, y) => {
-        // if (showTitle === 0) {
-        //   setShowTitle((prev) => prev + 1);
-        // }
         if (shapeRef.current === "rectangle") {
           totalShapes.current = totalShapes.current + 1;
           createRectangle(paperInstance, x, y, totalShapes, createdShapes, createdEntities);
@@ -177,24 +171,28 @@ const KitchenSkin = () => {
 
   const handleRect = () => {
     shapeRef.current = "rectangle";
+    // updateContext("none");
     createPaper();
   };
   const handleEllip = () => {
     shapeRef.current = "ellipse";
+    // updateContext("none");
     createPaper();
   };
   const handleRhom = () => {
     shapeRef.current = "rhombus";
+    // updateContext("none");
     createPaper();
   };
   const handleCirc = () => {
     shapeRef.current = "circle";
+    // updateContext("none");
     createPaper();
   };
 
   return (
     <div className="kitchen-skin">
-      { showTitle === 0 && (
+      { showTitle && (
         <div className="header">
           <h1>ER Diagram Sketcher</h1>
         </div>
@@ -209,7 +207,7 @@ const KitchenSkin = () => {
               <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/shapes/circle.png") } /> */}
               <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/images/rectangle.png") } />
               <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/images/ellipse.png") } />
-              <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/images/rohmbus.png") } />
+              <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/images/rhombus.png") } />
               <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/images/circle.png") } />
             </div>
           </GridColumn>

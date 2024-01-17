@@ -35,22 +35,20 @@ export const LinkContextProvider = ({ children }) => {
       const jsonData = paperInstance.current.model.toJSON();
       const jsonString = JSON.stringify(jsonData, null, 2);
 
-      // Create a Blob containing the JSON data
       const blob = new Blob([jsonString], { type: 'application/json' });
 
-      // Create a link to trigger the download
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = 'canvas_data.json';
 
-      // Trigger the download
       link.click();
     } catch (err) {
-      window.alert(err)
+      window.alert("Paper is Empty")
     }
   };
 
   const updateContext = (item) => {
+    console.log(item)
     addLink.current = item === "addLink" ? !addLink.current : false;
     removeLink.current = item === "removeLink" ? !removeLink.current : false;
     resize.current = item === "resize" ? !resize.current : false;
@@ -63,6 +61,8 @@ export const LinkContextProvider = ({ children }) => {
       downloadDiagram();
     } else if (item === "exportToJson") {
       exportToJSON();
+    } else if (item === "") {
+      console.log('none')
     }
 
     console.log(addLink, removeLink, resize, removeShape, downloadCanvas, exportJson);

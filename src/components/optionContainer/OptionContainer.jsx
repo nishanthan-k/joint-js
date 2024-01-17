@@ -15,7 +15,7 @@ const OptionContainer = () => {
       setActiveButton(item);
       setTimeout(() => {
         setActiveButton("");
-      }, 1000);
+      }, 1500);
     } else {
       setActiveButton(item);
     }

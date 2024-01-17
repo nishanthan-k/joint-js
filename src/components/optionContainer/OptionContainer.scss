@@ -1,6 +1,8 @@
 $primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
+$primary-top: -15px;
 
 .option-container {
+  margin-bottom: 20px;
   .options {
     display: flex;
     gap: 20px;
@@ -26,39 +28,39 @@ $primary-drop-shadow: drop-shadow(5px 5px 5px rgb(65, 64, 64));
 
       .show-add-link {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         left: 4px;
       }
 
       .show-remove-link {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         left: 57px;
       }
 
       .show-resize {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         left: 152px;
       }
 
       .show-remove-shape {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         // left: 190px;
         right: 120px;
       }
 
       .show-download-canvas {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         // left: 250px;
         right: 50px;
       }
 
       .show-export-To-Json {
         position: absolute;
-        top: -15px;
+        top: $primary-top;
         right: -15px;
       }
     }

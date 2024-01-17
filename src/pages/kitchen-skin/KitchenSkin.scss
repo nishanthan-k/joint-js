@@ -9,17 +9,18 @@
   }
 
   .erd-sketcher {
+
     .stencil {
-      // height: 100%;
       border: 1px solid;
       background-color: lightgrey;
+      padding: 0;
 
       .standard {
-        // height: 100%;
-        padding: 0 20px;
         display: flex;
-        justify-content: space-around;
+        justify-content: center;
+        align-items: center;
         flex-wrap: wrap;
+        gap: 10px;
 
         .img {
           width: 70px;
@@ -27,6 +28,7 @@
 
           &:hover {
             cursor: pointer;
+            filter: drop-shadow(5px 5px 5px gray);
           }
         }
       }

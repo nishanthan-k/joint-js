@@ -1,14 +1,11 @@
-import { dia } from "jointjs";
-import React, { useContext, useRef } from "react";
-import { Grid, GridColumn, GridRow, Image } from "semantic-ui-react";
-import { createCircle, createEllipse, createRectangle, createRhombus } from "../../commonFunctions/ShapeFunctions";
-import { createLink, deleteLink, updateLink } from "../../commonFunctions/genreralFunctions";
-import OptionContainer from "../../components/optionContainer/OptionContainer";
-import { CanvasContext } from "../../contexts/CanvasContext";
-import { OptionContext } from "../../contexts/OptionContext";
-import "./KitchenSkin.scss";
+import React, { useContext, useRef } from 'react'
+import { createCircle, createEllipse, createRectangle, createRhombus } from '../../commonFunctions/ShapeFunctions';
+import { CanvasContext } from '../../contexts/CanvasContext';
+import { OptionContext } from '../../contexts/OptionContext';
+import { createLink, deleteLink, updateLink } from '../../commonFunctions/genreralFunctions';
+import { dia } from 'jointjs';
 
-const KitchenSkin = () => {
+const PaperContainer = () => {
   // const [showTitle, setShowTitle] = useState(true);
   const createdShapes = useRef([]);
   const totalShapes = useRef(null);
@@ -166,51 +163,26 @@ const KitchenSkin = () => {
     }
   };
 
-  const handleRect = () => {
-    shapeRef.current = "rectangle";
-    createPaper();
-  };
-  const handleEllip = () => {
-    shapeRef.current = "ellipse";
-    createPaper();
-  };
-  const handleRhom = () => {
-    shapeRef.current = "rhombus";
-    createPaper();
-  };
-  const handleCirc = () => {
-    shapeRef.current = "circle";
-    createPaper();
-  };
-
+  // const handleRect = () => {
+  //   shapeRef.current = "rectangle";
+  //   createPaper();
+  // };
+  // const handleEllip = () => {
+  //   shapeRef.current = "ellipse";
+  //   createPaper();
+  // };
+  // const handleRhom = () => {
+  //   shapeRef.current = "rhombus";
+  //   createPaper();
+  // };
+  // const handleCirc = () => {
+  //   shapeRef.current = "circle";
+  //   createPaper();
+  // };
+  
   return (
-    <div className="kitchen-skin">
-      {/* { showTitle && ( */ }
-      <div className="header">
-        <h1>ER Diagram Sketcher</h1>
-      </div>
-      {/*  ) } */ }
-      <Grid columns={ 3 }>
-        <GridRow columns={ 3 } className="erd-sketcher">
-          <GridColumn width={ 2 } className="stencil">
-            <div className="standard">
-              <Image className="img" onClick={ () => handleRect() } src={ require("../../assets/images/rectangle.png") } />
-              <Image className="img" onClick={ () => handleEllip() } src={ require("../../assets/images/ellipse.png") } />
-              <Image className="img" onClick={ () => handleRhom() } src={ require("../../assets/images/rhombus.png") } />
-              <Image className="img" onClick={ () => handleCirc() } src={ require("../../assets/images/circle.png") } />
-            </div>
-          </GridColumn>
-          <GridColumn width={ 12 } className="paper-container">
-            <div className="paper" ref={ paperRef } />
-          </GridColumn>
-          <GridColumn width={ 2 } className="inspector"></GridColumn>
-        </GridRow>
-        <GridRow className="erd-options">
-          <OptionContainer />
-        </GridRow>
-      </Grid>
-    </div>
-  );
-};
+    <div className="paper" ref={ paperRef } />
+  )
+}
 
-export default KitchenSkin;
+export default PaperContainer

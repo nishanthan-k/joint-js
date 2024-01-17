@@ -2,9 +2,9 @@ import React, { createContext, useContext, useRef } from 'react';
 import domtoimage from 'dom-to-image'
 import { CanvasContext } from './CanvasContext';
 
-export const LinkContext = createContext();
+export const OptionContext = createContext();
 
-export const LinkContextProvider = ({ children }) => {
+export const OptionContextProvider = ({ children }) => {
   const addLink = useRef(false);
   const removeLink = useRef(false);
   const resize = useRef(false);
@@ -71,8 +71,8 @@ export const LinkContextProvider = ({ children }) => {
 
 
   return (
-    <LinkContext.Provider value={ { addLink, removeLink, resize, removeShape, downloadCanvas, exportToJSON, updateContext } }>
+    <OptionContext.Provider value={ { addLink, removeLink, resize, removeShape, downloadCanvas, exportToJSON, updateContext } }>
       { children }
-    </LinkContext.Provider>
+    </OptionContext.Provider>
   );
 };

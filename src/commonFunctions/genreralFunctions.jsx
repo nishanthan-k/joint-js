@@ -36,7 +36,6 @@ export const updateLink = (paperInstance, link, newTarget) => {
     }
   });
   deleteLink(paperInstance, link.id)
-  // linkArr.push(newLink);
   paperInstance.current.model.addCell(newLink);
 }
 
@@ -45,9 +44,6 @@ export const deleteLink = (paperInstance, linkId, linkArr) => {
   const linkToRemove = paperInstance.current.model.getCell(linkId);
   if (linkToRemove) {
     linkToRemove.remove();
-    // console.log(linkArr)
-    // linkArr  = linkArr.filter(link => link.id != linkId)
-    // console.log(linkArr)
   }
 };
 

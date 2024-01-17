@@ -10,7 +10,6 @@ $primary-top: -15px;
 
     & > div {
       width: 50px;
-      // position: relative;
     }
 
     .add-link,
@@ -47,14 +46,12 @@ $primary-top: -15px;
       .show-remove-shape {
         position: absolute;
         top: $primary-top;
-        // left: 190px;
         right: 120px;
       }
 
       .show-download-canvas {
         position: absolute;
         top: $primary-top;
-        // left: 250px;
         right: 50px;
       }
 

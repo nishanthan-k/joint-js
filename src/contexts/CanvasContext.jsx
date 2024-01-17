@@ -7,9 +7,6 @@ export const CanvasContextProvider = ({ children }) => {
   const paperRef = useRef(null);
   const shapeRef = useRef(null);
 
-  // paperInstance.current =
-
-
   return (
     <CanvasContext.Provider value={ { paperRef, paperInstance, shapeRef } }>
       { children }

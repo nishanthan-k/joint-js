@@ -1,10 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { Button, GridRow, Segment } from 'semantic-ui-react';
-import { LinkContext } from '../../contexts/LinkContext';
+import { OptionContext } from '../../contexts/OptionContext';
 import "./OptionContainer.scss";
 
 const OptionContainer = () => {
-  const { updateContext } = useContext(LinkContext);
+  const { updateContext } = useContext(OptionContext);
   const [activeButton, setActiveButton] = useState(null);
 
   const handleUpdateContext = (item) => {
